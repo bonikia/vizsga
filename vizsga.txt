@@ -1,0 +1,81 @@
+Alapkonfig routeren
+
+en
+conf t
+enable secret idejelszo
+hostname idenev
+line ezakonzolvonal
+password idejelszo
+login 
+exit
+service password-encryption
+
+telnet
+exit
+conf t
+line vonalt 0 15		
+password idejelszo
+login
+exit
+int idevlaninterfacekell
+ip add ideipcimésmaszk
+no sh
+exit 
+
+Idő
+en
+conf t
+service password-encryption
+security passwords min-length ideszám
+login block-for ideszámidonbelul attempts ideszámsikertelen within ideszámmeddig
+end
+
+
+
+Alapkonfig switchen
+en
+conf t
+enable secret idejelszo
+hostname idenev
+line ezakonzolvonal
+password idejelszo
+login 
+exit
+service password-encryption
+banner motd #ideszoveg#
+exit
+
+
+telnet
+
+conf t
+line vonalt 0 15
+password idejelszo
+login
+exit
+int ideinterface
+ip add ideipcimésmaszk
+no sh
+ip default-gateway ideipcim
+exit
+
+
+SSH
+
+en
+conf t
+hostname idenev
+int ideinterface
+ip add ideipcimésmaszk
+no sh
+ip default-gateway ideipcim
+exit
+ip domain-name ideadomainnév
+crypto key generate rsa
+(1024 vagy 512)
+(ha ssh2es verzió kell:ip ssh version 2)
+username idenév privilege 15 secret idejelszo
+line vonalt 0 15
+transport input ssh
+privilege level 15
+login local
